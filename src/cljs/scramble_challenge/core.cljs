@@ -11,7 +11,9 @@
     [scramble-challenge.events]
     [reitit.core :as reitit]
     [reitit.frontend.easy :as rfe]
-    [clojure.string :as string])
+    [clojure.string :as string]
+    [scramble-challenge.view.scramble :refer [scramble-view]]
+    [scramble-challenge.subscription.scramble])
   (:import goog.History))
 
 (defn nav-link [uri title page]
@@ -24,7 +26,7 @@
   (r/with-let [expanded? (r/atom false)]
               [:nav.navbar.is-info>div.container
                [:div.navbar-brand
-                [:a.navbar-item {:href "/" :style {:font-weight :bold}} "scramble-challenge"]
+                [:a.navbar-item {:href "/api/scramble/" :style {:font-weight :bold}} "scramble-challenge"]
                 [:span.navbar-burger.burger
                  {:data-target :nav-menu
                   :on-click #(swap! expanded? not)
@@ -57,7 +59,7 @@
 (def router
   (reitit/router
     [["/" {:name        :home
-           :view        #'home-page
+           :view        #'scramble-view
            :controllers [{:start (fn [_] (rf/dispatch [:page/init-home]))}]}]
      ["/about" {:name :about
                 :view #'about-page}]]))

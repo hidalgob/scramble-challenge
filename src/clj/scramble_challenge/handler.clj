@@ -3,6 +3,7 @@
     [scramble-challenge.middleware :as middleware]
     [scramble-challenge.layout :refer [error-page]]
     [scramble-challenge.routes.home :refer [home-routes]]
+    [scramble-challenge.routes.scramble :refer [scramble-routes]]
     [reitit.ring :as ring]
     [ring.middleware.content-type :refer [wrap-content-type]]
     [ring.middleware.webjars :refer [wrap-webjars]]
@@ -17,7 +18,10 @@
   :start
   (ring/ring-handler
     (ring/router
-      [(home-routes)])
+      [""
+       [(home-routes)]
+       "/api"
+       [(scramble-routes)]])
     (ring/routes
       (ring/create-resource-handler
         {:path "/"})
