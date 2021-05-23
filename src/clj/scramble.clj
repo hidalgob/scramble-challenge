@@ -1,7 +1,7 @@
 (ns scramble)
 
 (defn send-response [resp]
-  {:result (str resp)})
+  {:result resp})
 
 (defn scramble? [pool sample]
   (->> sample

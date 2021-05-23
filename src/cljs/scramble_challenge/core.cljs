@@ -22,26 +22,6 @@
     :class (when (= page @(rf/subscribe [:common/page-id])) :is-active)}
    title])
 
-(defn navbar [] 
-  (r/with-let [expanded? (r/atom false)]
-              [:nav.navbar.is-info>div.container
-               [:div.navbar-brand
-                [:a.navbar-item {:href "/api/scramble/" :style {:font-weight :bold}} "scramble-challenge"]
-                [:span.navbar-burger.burger
-                 {:data-target :nav-menu
-                  :on-click #(swap! expanded? not)
-                  :class (when @expanded? :is-active)}
-                 [:span][:span][:span]]]
-               [:div#nav-menu.navbar-menu
-                {:class (when @expanded? :is-active)}
-                [:div.navbar-start
-                 [nav-link "#/" "Home" :home]
-                 [nav-link "#/about" "About" :about]]]]))
-
-(defn about-page []
-  [:section.section>div.container>div.content
-   [:img {:src "/img/warning_clojure.png"}]])
-
 (defn home-page []
   [:section.section>div.container>div.content
    (when-let [docs @(rf/subscribe [:docs])]
@@ -50,7 +30,6 @@
 (defn page []
   (if-let [page @(rf/subscribe [:common/page])]
     [:div
-     [navbar]
      [page]]))
 
 (defn navigate! [match _]
@@ -60,9 +39,7 @@
   (reitit/router
     [["/" {:name        :home
            :view        #'scramble-view
-           :controllers [{:start (fn [_] (rf/dispatch [:page/init-home]))}]}]
-     ["/about" {:name :about
-                :view #'about-page}]]))
+           :controllers [{:start (fn [_] (rf/dispatch [:page/init-home]))}]}]]))
 
 (defn start-router! []
   (rfe/start!

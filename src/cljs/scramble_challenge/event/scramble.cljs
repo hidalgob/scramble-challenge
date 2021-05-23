@@ -17,7 +17,6 @@
 (reg-event-db
   :scramble/success
   (fn [db [_ result]]
-    (println db result)
     (-> db
         (assoc :loading false)
         (assoc-in [:scramble :data] result))))
