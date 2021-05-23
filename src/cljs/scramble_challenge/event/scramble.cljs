@@ -3,25 +3,26 @@
             [day8.re-frame.http-fx]
             [re-frame.core :refer [reg-event-db reg-event-fx]]))
 
-
-(reg-event-db
+(reg-event-fx
   :scramble/run
-  (fn [a pool sample]
-    (println a pool sample)
-    {:http-xhrio {:method          :get
-                  :uri             (str "/api/scramble/" (:pool pool) "/" (:sample sample))
+  (fn [{:keys [db]} [_ pool sample]]
+    {:db         (-> db
+                     (assoc :loading true))
+     :http-xhrio {:method          :get
+                  :uri             (str "/api/scramble/" pool "/" sample)
                   :response-format (json-response-format {:keywords? true})
                   :on-success      [:scramble/success]
                   :on-failure      [:scramble/failure]}}))
 
 (reg-event-db
   :scramble/success
-  (fn [a b]
-    (println a b)
-    (assoc-in [:scramble :data] :data b)))
+  (fn [db [_ result]]
+    (println db result)
+    (-> db
+        (assoc :loading false)
+        (assoc-in [:scramble :data] result))))
 
 (reg-event-fx
   :scramble/failure
-  (fn [a [b error]]
-    (println a b error)
+  (fn [_ [_ error]]
     {:dispatch [:common/set-error (:status-text error)]}))

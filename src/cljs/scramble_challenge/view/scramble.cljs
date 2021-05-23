@@ -2,11 +2,14 @@
   (:require [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as r]))
 
+(defn disabled-button? [pool sample]
+  (or (empty? pool)
+      (empty? sample)))
 
 (defn scramble-view []
-  (let [pool               (r/atom "")
-        sample             (r/atom "")
-        scramble           (subscribe [:scramble/data])]
+  (let [pool     (r/atom "")
+        sample   (r/atom "")
+        scramble (subscribe [:scramble/data])]
     (fn []
       [:section {:class "section"}
        [:div {:class "container"}
@@ -28,9 +31,10 @@
                     :value       @sample
                     :on-change   #(reset! sample (-> % .-target .-value))}]]
           [:button {:type     :submit
-                    :on-click #(dispatch [:scramble/run @pool @sample])}
+                    :on-click #(dispatch [:scramble/run @pool @sample])
+                    :disabled (disabled-button? @pool @sample)}
            "Check Scramble"]]
          (when (not-empty @scramble)
            [:div {:class "result"}
             [:div
-             [:label "Result: "]]])]]])))
+             [:label "Result: " (:result @scramble)]]])]]])))
