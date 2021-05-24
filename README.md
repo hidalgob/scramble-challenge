@@ -1,8 +1,6 @@
 # scramble-challenge
-
-generated using Luminus version "4.08"
-
-FIXME
+This project was made for a scramble code challenge using
+[Luminus template](https://github.com/luminus-framework/luminus-template) for Clojure + ClojureScript.
 
 ## Prerequisites
 
@@ -14,8 +12,13 @@ You will need [Leiningen][1] 2.0 or above installed.
 
 To start a web server for the application, run:
 
-    lein run 
+    lein run
+    lein shadow watch app
 
-## License
+Access application at <http://localhost:3000/>
 
-Copyright © 2021 FIXME
+## Tests
+
+To run tests, run:
+
+    lein test
