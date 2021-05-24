@@ -30,6 +30,7 @@
            [:input {:name        "pool"
                     :type        :text
                     :value       @pool
+                    :max-length  "100"
                     :pattern     "[a-z]+"
                     :on-change   #(reset! pool (-> % .-target .-value))}]]
           [:div
@@ -37,6 +38,7 @@
            [:input {:name        "sample"
                     :type        :text
                     :value       @sample
+                    :max-length  "100"
                     :pattern     "[a-z]+"
                     :on-change   #(reset! sample (-> % .-target .-value))}]]
           [:button {:type     :submit

@@ -12,6 +12,6 @@
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/:pool/:sample" {:get {:handler (fn [{:keys [path-params]}]
-                                       (let [scramble (scramble/scramble? (:pool path-params) (:sample path-params))]
+                                       (let [result (scramble/scramble? (:pool path-params) (:sample path-params))]
                                          {:status 200
-                                          :body   scramble}))}}]])
+                                          :body   {:result result}}))}}]])
